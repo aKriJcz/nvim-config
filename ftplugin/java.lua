@@ -92,6 +92,7 @@ local jdtls_config = {
       signatureHelp = { enabled = true };
       --contentProvider = { preferred = 'fernflower' };
       codeGeneration = {
+        generateComments = true,
         toString = {
           template = "${object.className}{${member.name()}=${member.value}, ${otherMembers}}"
         },

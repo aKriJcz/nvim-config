@@ -1,6 +1,11 @@
 -- https://neovim.io/doc/user/filetype.html
 -- https://github.com/brainfucksec/neovim-lua/tree/main/nvim
 
+-- TODO: Migrate to LuaSnip
+-- https://github.com/L3MON4D3/LuaSnip/blob/master/DOC.md#loaders
+-- https://gist.github.com/davidatsurge/9873d9cb1781f1a37c0f25d24cb1b3ab
+-- https://cj.rs/blog/ultisnips-to-luasnip/
+
 local set = vim.opt  -- General options
 
 set.number = true
@@ -250,6 +255,19 @@ command! -nargs=+ -complete=file Ripgrep :call ripgrep#search(<q-args>)
 
 -- zig.vim
 vim.g.zig_fmt_autosave = 0
+
+-- https://github.com/alvan/vim-closetag/issues/40
+-- Enable vim-closetag + delimitMate functionality
+vim.cmd [[
+" These are the file extensions where this plugin is enabled.
+let g:closetag_filenames = "*.xml,*.html,*.xhtml,*.phtml,*.php,*.erb"
+
+" delimitMate colides with vim-closetag bug fix
+au FileType eruby,xml,html,phtml,php,xhtml,js let b:delimitMate_matchpairs = "(:),[:],{:}"
+
+" These are the file types where this plugin is enabled.
+let g:closetag_filetypes = 'xml,html,xhtml,phtml,eruby'
+]]
 
 require("keybindings")
 require("plugins")

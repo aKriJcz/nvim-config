@@ -33,8 +33,14 @@ local on_attach = function(_, bufnr)
 
   vim.api.nvim_buf_set_keymap(bufnr, 'n', '<space>D', '<cmd>lua vim.lsp.buf.type_definition()<CR>', opts)
   --vim.api.nvim_buf_set_keymap(bufnr, 'n', '<space>la', '<cmd>lua vim.lsp.buf.code_action()<CR>', opts)
-  vim.api.nvim_buf_set_keymap(bufnr, 'n', '<space>la', '<cmd>Lspsaga code_action<CR>', opts)
   vim.api.nvim_buf_set_keymap(bufnr, 'n', '<space>lf', '<cmd>lua vim.lsp.buf.format()<CR>', opts)
+
+  -- LspSaga
+  vim.api.nvim_buf_set_keymap(bufnr, 'n', '<space>la', '<cmd>Lspsaga code_action<CR>', opts)
+  vim.api.nvim_buf_set_keymap(bufnr, 'n', '<space>lr', '<cmd>Lspsaga rename<CR>', opts)
+  vim.api.nvim_buf_set_keymap(bufnr, 'n', '<space>ln', '<cmd>Lspsaga diagnostic_jump_next<CR>', opts)
+  vim.api.nvim_buf_set_keymap(bufnr, 'n', '<space>lp', '<cmd>Lspsaga diagnostic_jump_prev<CR>', opts)
+  --vim.api.nvim_buf_set_keymap(bufnr, 'n', 'K', '<cmd>Lspsaga hover_doc<CR>', opts)
 
   --navic.attach(client, bufnr)
   --aerial.on_attach(client, bufnr)
@@ -72,7 +78,7 @@ local setup = function ()
   }))
 
   lspconfig.perlpls.setup(vim.tbl_extend("force", lspdef, {
-    cmd = { "perl", vim.fn.systemlist("which pls")[1] },
+    --cmd = { "perl", vim.fn.systemlist("which pls")[1] },
     root_dir = function () return'/home/jirka/pgm/perl'; end,
     settings = {
       perl = {
@@ -118,6 +124,10 @@ end
 require("lspsaga").setup({
   symbol_in_winbar = {
     enable = false,
+  },
+  scroll_preview = {
+    scroll_up = "<C-p>",
+    scroll_down = "<C-n>",
   },
 })
 
