@@ -82,3 +82,6 @@ wkey.register {
 -- vim-matchup
 vim.g.matchup_matchparen_enabled = 0
 vim.g.matchup_surround_enabled = 1
+
+-- vim-markdown
+vim.g.vim_markdown_conceal_code_blocks = 0
