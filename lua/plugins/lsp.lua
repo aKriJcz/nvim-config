@@ -66,7 +66,8 @@ local lspdef = {
 local setup = function ()
   -- Use a loop to conveniently call 'setup' on multiple servers and
   -- map buffer local keybindings when the language server attaches
-  local servers = { 'zls', 'rnix', 'texlab', 'clangd', 'zk', 'vimls', 'bashls', 'cssls' }
+  --local servers = { 'zls', 'rnix', 'texlab', 'clangd', 'zk', 'vimls', 'bashls', 'cssls' }
+  local servers = { 'zls', 'texlab', 'clangd', 'zk', 'vimls', 'bashls', 'cssls' }
 
   for _, lsp in pairs(servers) do
     lspconfig[lsp].setup(lspdef)
@@ -89,6 +90,11 @@ local setup = function ()
         },
       },
     },
+  }))
+
+  lspconfig.nixd.setup(vim.tbl_extend("force", lspdef, {
+    --settings = {
+    --},
   }))
 
   --lspconfig.sumneko_lua.setup(vim.tbl_extend("force", lspdef, neodev))

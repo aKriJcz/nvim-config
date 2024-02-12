@@ -79,6 +79,8 @@ wkey.register {
   ["<Space>ct"] = { ":Trouble<CR>",           "Show trouble" },
 }
 
+require('git-conflict').setup {}
+
 -- vim-matchup
 vim.g.matchup_matchparen_enabled = 0
 vim.g.matchup_surround_enabled = 1
