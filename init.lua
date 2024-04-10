@@ -269,6 +269,16 @@ au FileType eruby,xml,html,phtml,php,xhtml,js let b:delimitMate_matchpairs = "(:
 let g:closetag_filetypes = 'xml,html,xhtml,phtml,eruby'
 ]]
 
+-- https://www.reddit.com/r/neovim/comments/suy5j7/highlight_yanked_text/
+-- highlight yanked text for 200ms using the "Visual" highlight group
+vim.cmd[[
+augroup highlight_yank
+autocmd!
+au TextYankPost * silent! lua vim.highlight.on_yank({higroup="Visual", timeout=200})
+augroup END
+]]
+
+
 require("keybindings")
 require("plugins")
 
