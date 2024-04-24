@@ -87,7 +87,7 @@ vim.cmd [[
 " Formatting of files
 au FileType xml command! Format %!xmllint --format -
 au FileType html command! Format %!tidy --indent yes --show-body-only auto
-au FileType json command! Format %!python -m json.tool
+au FileType json command! Format %!jq .
 au FileType sql command! -range=% Format <line1>,<line2>!sqlformat --reindent --keywords upper --identifiers lower -
 ]]
 
