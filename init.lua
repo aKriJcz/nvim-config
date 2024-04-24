@@ -278,6 +278,10 @@ au TextYankPost * silent! lua vim.highlight.on_yank({higroup="Visual", timeout=2
 augroup END
 ]]
 
+-- vim-svelte-plugin
+vim.g.vim_svelte_plugin_use_typescript = 1
+vim.g.vim_svelte_plugin_use_less = 1
+
 
 require("keybindings")
 require("plugins")
