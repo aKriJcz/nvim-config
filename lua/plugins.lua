@@ -3,7 +3,7 @@ local wkey = require("which-key")
 require('plugins/nvim-tree')
 require('plugins/nvim-treesitter')
 require('plugins/nvim-dap')
-require('plugins/telescope')
+--require('plugins/telescope')
 require('plugins/cmp').setup()
 require('plugins/lsp').setup()
 
@@ -80,6 +80,10 @@ wkey.register {
 }
 
 require('git-conflict').setup {}
+
+require("fzf-lua").setup({
+  {"fzf-vim", "telescope"},
+  winopts={preview={default="bat"}}})
 
 -- vim-matchup
 vim.g.matchup_matchparen_enabled = 0
