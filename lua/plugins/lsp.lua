@@ -8,6 +8,7 @@ require("neodev").setup{}
 -- Debug LSP
 -- :lua print(vim.inspect(vim.lsp.get_active_clients()))
 local lspconfig = require('lspconfig')
+local fzf_lua = require('fzf-lua')
 
 -- Use an on_attach function to only map the following keys
 -- after the language server attaches to the current buffer
@@ -20,7 +21,6 @@ local on_attach = function(_, bufnr)
   -- See `:help vim.lsp.*` for documentation on any of the below functions
   vim.api.nvim_buf_set_keymap(bufnr, 'n', 'gD', '<cmd>lua vim.lsp.buf.declaration()<CR>', opts)
   vim.api.nvim_buf_set_keymap(bufnr, 'n', 'gd', '<cmd>lua vim.lsp.buf.definition()<CR>', opts)
-  vim.api.nvim_buf_set_keymap(bufnr, 'n', 'gr', '<cmd>lua vim.lsp.buf.references()<CR>', opts)
   vim.api.nvim_buf_set_keymap(bufnr, 'n', 'gi', '<cmd>lua vim.lsp.buf.implementation()<CR>', opts)
   vim.api.nvim_buf_set_keymap(bufnr, 'n', 'K', '<cmd>lua vim.lsp.buf.hover()<CR>', opts)
   vim.api.nvim_buf_set_keymap(bufnr, 'i', '<C-h>', '<cmd>lua vim.lsp.buf.signature_help()<CR>', opts)
@@ -34,6 +34,12 @@ local on_attach = function(_, bufnr)
   vim.api.nvim_buf_set_keymap(bufnr, 'n', '<space>D', '<cmd>lua vim.lsp.buf.type_definition()<CR>', opts)
   --vim.api.nvim_buf_set_keymap(bufnr, 'n', '<space>la', '<cmd>lua vim.lsp.buf.code_action()<CR>', opts)
   vim.api.nvim_buf_set_keymap(bufnr, 'n', '<space>lf', '<cmd>lua vim.lsp.buf.format()<CR>', opts)
+
+  vim.keymap.set("n", "<space>lD", fzf_lua.lsp_declarations, { buffer = bufnr, desc = "LSP declarations" })
+  vim.keymap.set("n", "<space>ld", fzf_lua.lsp_definitions, { buffer = bufnr, desc = "LSP definitions" })
+  vim.keymap.set("n", "gr", fzf_lua.lsp_references, { buffer = bufnr, desc = "LSP references" })
+  vim.keymap.set("n", "<space>li", fzf_lua.lsp_implementations, { buffer = bufnr, desc = "LSP implementations" })
+  vim.keymap.set("n", "<space>ll", fzf_lua.lsp_finder, { buffer = bufnr, desc = "LSP finder" })
 
   -- LspSaga
   vim.api.nvim_buf_set_keymap(bufnr, 'n', '<space>la', '<cmd>Lspsaga code_action<CR>', opts)
