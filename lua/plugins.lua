@@ -81,9 +81,15 @@ wkey.register {
 
 require('git-conflict').setup {}
 
-require("fzf-lua").setup({
+require("fzf-lua").setup {
   {"fzf-vim", "telescope"},
-  winopts={preview={default="bat"}}})
+  fzf_opts = {
+    ['--layout'] = 'reverse'
+  },
+  winopts={
+    preview={default="bat"}
+  }
+}
 
 -- vim-matchup
 vim.g.matchup_matchparen_enabled = 0
