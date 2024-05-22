@@ -45,9 +45,11 @@ set guicursor+=i-ci:ver25-iCursor
 hi Debug           guifg=#BCA3A3               gui=bold
 hi Define          guifg=#66D9EF
 hi Delimiter       guifg=#8F8F8F
-hi DiffAdd                       guibg=#13354A
+hi Added           guifg=#69F684 guibg=#13354A
+hi DiffAdd         guifg=#69F684 guibg=#13354A
 hi DiffChange      guifg=#89807D guibg=#4C4745
-hi DiffDelete      guifg=#960050 guibg=#1E0010
+hi Removed         guifg=#C80050 guibg=#1E0010
+hi DiffDelete      guifg=#C80050 guibg=#1E0010
 hi DiffText                      guibg=#4C4745 gui=italic,bold
 
 hi Directory       guifg=#87FF00               gui=bold
