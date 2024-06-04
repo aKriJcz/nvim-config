@@ -4,7 +4,7 @@ local lsp = require('plugins/lsp')
 -- Java
 vim.g.syntastic_java_checkers = {}
 local jdtls = require('jdtls')
-local root_markers = {'settings.gradle', '.git', 'mvnw'}
+local root_markers = {'settings.gradle', 'settings.gradle.kts', '.git', 'mvnw'}
 local root_dir = require('jdtls.setup').find_root(root_markers)
 local home = os.getenv('HOME')
 
@@ -78,7 +78,7 @@ local jdtls_config = {
   capabilities = lsp.lspdef.capabilities,
   -- The command that starts the language server
   -- See: https://github.com/eclipse/eclipse.jdt.ls#running-from-the-command-line
-  cmd = { 'jdt-language-server', '-data', workspace_folder, '-configuration', config_folder },
+  cmd = { 'jdtls', '-data', workspace_folder, '-configuration', config_folder },
 
   -- This is the default if not provided, you can remove it. Or adjust as needed.
   -- One dedicated LSP server & client will be started per unique root_dir

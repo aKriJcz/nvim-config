@@ -97,3 +97,11 @@ vim.g.matchup_surround_enabled = 1
 
 -- vim-markdown
 vim.g.vim_markdown_conceal_code_blocks = 0
+
+-- vim-fluffy
+--cmap <space> <plug>(fluffy-space)
+vim.keymap.set("c", "<space>", "<plug>(fluffy-space)", { desc = "Fluffy space" })
+-- NOTE: ^_ should be one character. Input it with <c-v><c-/>
+--cmap ^_ <plug>(fluffy-toggle)
+-- Ctrl-k
+vim.keymap.set("c", "", "<plug>(fluffy-toggle)", { desc = "Fluffy toggle" })
