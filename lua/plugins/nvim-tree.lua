@@ -89,18 +89,16 @@ nvimtree.setup {
   }
 }
 
-wkey.register {
-  ["<F10>"] = { "<cmd>NvimTreeToggle<CR>", "Toggle nvim-tree" },
-  ["<leader>t"] = {
-    f = { "<cmd>NvimTreeFindFile<CR>", "Find file in nvim-tree" },
-    g = { "<cmd>NvimTreeFocus<CR>", "Focus nvim-tree" },
-    p = { -- https://github.com/kyazdani42/nvim-tree.lua/issues/860
+wkey.add {
+  { "<F10>", "<cmd>NvimTreeToggle<CR>", desc = "Toggle nvim-tree" },
+  { "<leader>tf", "<cmd>NvimTreeFindFile<CR>", desc = "Find file in nvim-tree" },
+  { "<leader>tg", "<cmd>NvimTreeFocus<CR>", desc = "Focus nvim-tree" },
+  { "<leader>tp", -- https://github.com/kyazdani42/nvim-tree.lua/issues/860
       function()
-        local previous_buf = vim.api.nvim_get_current_buf()
+        --local previous_buf = vim.api.nvim_get_current_buf()
         local previous_win = vim.api.nvim_get_current_win()
         api.tree.find_file { open = true }
         vim.api.nvim_set_current_win(previous_win)
-      end, "Preview file in NvimTree"
-    },
-  }
+      end, desc = "Preview file in NvimTree"
+  },
 }

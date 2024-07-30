@@ -58,19 +58,19 @@ end
 require("dapui").setup {}
 require("nvim-dap-virtual-text").setup {}
 
-wkey.register {
-  ["<F4>"] =        { ":lua require'dap'.terminate()<CR>",         "DAP Terminate" },
-  ["<F5>"] =        { ":lua require'dap'.toggle_breakpoint()<CR>", "DAP Toggle breakpoint" },
-  ["<F6>"] =        { ":lua require'dap'.continue()<CR>",          "DAP Continue" },
-  ["<F7>"] =        { ":lua require'dap'.step_into()<CR>",         "DAP Step into" },
-  ["<F8>"] =        { ":lua require'dap'.step_over()<CR>",         "DAP Step over" },
-  ["<F9>"] =        { ":lua require'dap'.step_out()<CR>",          "DAP Step out" },
-  ["<Leader>di"] =  { ":lua require'dapui'.toggle()<CR>",          "DAP UI" },
-  ["<Leader>dro"] = { ":lua require'dap'.repl.open()<CR>",          "DAP UI" },
-  ["<Leader>dbc"] = { ":lua require'dap'.set_breakpoint(vim.fn.input('Breakpoint condition: '))<CR>",
-    "DAP UI" },
-  ["<Leader>dbm"] = { ":lua require'dap'.set_breakpoint({ nil, nil, vim.fn.input('Log point message: ') })<CR>",
-    "DAP UI" },
+wkey.add {
+  { "<F4>", ":lua require'dap'.terminate()<CR>",         desc = "DAP Terminate" },
+  { "<F5>", ":lua require'dap'.toggle_breakpoint()<CR>", desc = "DAP Toggle breakpoint" },
+  { "<F6>", ":lua require'dap'.continue()<CR>",          desc = "DAP Continue" },
+  { "<F7>", ":lua require'dap'.step_into()<CR>",         desc = "DAP Step into" },
+  { "<F8>", ":lua require'dap'.step_over()<CR>",         desc = "DAP Step over" },
+  { "<F9>", ":lua require'dap'.step_out()<CR>",          desc = "DAP Step out" },
+  { "<Leader>di", ":lua require'dapui'.toggle()<CR>",    desc = "DAP UI" },
+  { "<Leader>dro", ":lua require'dap'.repl.open()<CR>",  desc = "DAP UI" },
+  { "<Leader>dbc", ":lua require'dap'.set_breakpoint(vim.fn.input('Breakpoint condition: '))<CR>",
+    desc = "DAP UI" },
+  { "<Leader>dbm", ":lua require'dap'.set_breakpoint({ nil, nil, vim.fn.input('Log point message: ') })<CR>",
+    desc = "DAP UI" },
 }
 
 -- one-small-step-for-vimkind

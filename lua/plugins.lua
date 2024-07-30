@@ -75,8 +75,8 @@ require('lualine').setup {
 }
 
 require("trouble").setup {}
-wkey.register {
-  ["<Space>ct"] = { ":Trouble<CR>",           "Show trouble" },
+wkey.add {
+  { "<Space>ct", ":Trouble<CR>", desc = "Show trouble" },
 }
 
 require('git-conflict').setup {}
