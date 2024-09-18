@@ -73,7 +73,7 @@ local setup = function ()
   -- Use a loop to conveniently call 'setup' on multiple servers and
   -- map buffer local keybindings when the language server attaches
   --local servers = { 'zls', 'rnix', 'texlab', 'clangd', 'zk', 'vimls', 'bashls', 'cssls' }
-  local servers = { 'zls', 'texlab', 'clangd', 'zk', 'vimls', 'bashls', 'svelte', 'tsserver' }
+  local servers = { 'zls', 'texlab', 'clangd', 'zk', 'vimls', 'bashls', 'svelte', 'ts_ls' }
 
   for _, lsp in pairs(servers) do
     lspconfig[lsp].setup(lspdef)
