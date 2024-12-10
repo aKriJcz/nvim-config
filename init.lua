@@ -48,7 +48,7 @@ set.foldlevel = 1
 
 vim.cmd [[ highlight ColorColumn ctermbg=52 ]]
 if vim.fn.exists('+colorcolumn') then
-	vim.opt.colorcolumn = '80,100'
+  vim.opt.colorcolumn = '80,100'
 end
 
 
@@ -70,16 +70,16 @@ map <F11> :<C-U>call MySpellLang()<CR>
 
 -- Boxes
 vim.api.nvim_create_autocmd('FileType', {
-	pattern = { 'text', 'sh', 'conf', 'sshconfig', 'ldif' },
-	command = [[ map <buffer> <F3> :'<,'>!boxes -d shell -s 80 -a c<CR> ]],
+  pattern = { 'text', 'sh', 'conf', 'sshconfig', 'ldif' },
+  command = [[ map <buffer> <F3> :'<,'>!boxes -d shell -s 80 -a c<CR> ]],
 })
 vim.api.nvim_create_autocmd('FileType', {
-	pattern = { 'haskell', 'lua' },
-	command = [[ map <buffer> <F3> :'<,'>!boxes -d ada-box -s 80 -a c<CR> ]],
+  pattern = { 'haskell', 'lua' },
+  command = [[ map <buffer> <F3> :'<,'>!boxes -d ada-box -s 80 -a c<CR> ]],
 })
 vim.api.nvim_create_autocmd('FileType', {
-	pattern = { 'java', 'groovy' },
-	command = [[ map <buffer> <F3> :'<,'>!boxes -d c -s 80 -a c<CR> ]],
+  pattern = { 'java', 'groovy' },
+  command = [[ map <buffer> <F3> :'<,'>!boxes -d c -s 80 -a c<CR> ]],
 })
 -- command -nargs=* -range Boxes :'<,'>!boxes -s 80 -a c -d <args>
 
@@ -102,12 +102,12 @@ hi OverLength ctermbg=none cterm=none
 match OverLength /\%>80v/
 function LongLineHLToggle()
   if !exists('w:longlinehl')
-	let w:longlinehl = matchadd('ErrorMsg', '.\%>80v', 0)
-	echo "Long lines highlighted"
+    let w:longlinehl = matchadd('ErrorMsg', '.\%>80v', 0)
+    echo "Long lines highlighted"
   else
-	call matchdelete(w:longlinehl)
-	unl w:longlinehl
-	echo "Long lines unhighlighted"
+    call matchdelete(w:longlinehl)
+    unl w:longlinehl
+    echo "Long lines unhighlighted"
   endif
 endfunction
 ]]
@@ -215,9 +215,9 @@ vim.b.csv_arrange_align = 'l*'
 
 -- Syntastic
 vim.g.syntastic_mode_map = {
-	mode = 'passive',
-	active_filetypes = { 'sh', 'java' },
-	passive_filetypes = {}
+  mode = 'passive',
+  active_filetypes = { 'sh', 'java' },
+  passive_filetypes = {}
 }
 vim.g.syntastic_always_populate_loc_list = 1
 vim.g.syntastic_auto_loc_list = 1
@@ -238,8 +238,8 @@ vim.g.closetag_filetypes = 'html,xhtml,phtml'
 vim.g.closetag_xhtml_filetypes = 'xhtml,jsx'
 vim.g.closetag_emptyTags_caseSensitive = 1
 vim.g.closetag_regions = {
-    ['typescript.tsx'] = 'jsxRegion,tsxRegion',
-    ['javascript.jsx'] = 'jsxRegion',
+  ['typescript.tsx'] = 'jsxRegion,tsxRegion',
+  ['javascript.jsx'] = 'jsxRegion',
 }
 vim.g.closetag_shortcut = '>'
 vim.g.closetag_close_shortcut = '<leader>>'

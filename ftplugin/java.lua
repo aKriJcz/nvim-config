@@ -10,7 +10,7 @@ local home = os.getenv('HOME')
 
 local project_name = vim.fn.fnamemodify(root_dir, ':p:h:t')
 if (project_name == 'trunk') then
-	project_name = vim.fn.fnamemodify(root_dir, ':p:h:h:t')
+  project_name = vim.fn.fnamemodify(root_dir, ':p:h:h:t')
 end
 local workspace_folder = home .. "/.local/share/jdt.ls/" .. project_name
 local config_folder = home .. "/.local/share/jdt.ls/config_linux"
