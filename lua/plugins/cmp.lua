@@ -27,6 +27,7 @@ local setup = function()
       { name = 'nvim_lsp' },
       { name = 'vsnip' }, -- For vsnip users.
       { name = 'emoji' },
+      { name = "copilot" },
     }, {
       { name = 'path' },
       { name = 'buffer', keyword_length = 3 },
