@@ -22,13 +22,19 @@ local setup = function()
       --['<CR>'] = cmp.mapping.confirm({ select = true }),
       ['<C-Space>'] = cmp.mapping.confirm({ select = true }),
       ['<C-s>'] = cmp.mapping.complete({ }),
+      ['<C-o>'] = cmp.mapping.complete({
+        config = {
+          sources = {
+            { name = 'copilot' } -- Copilot only triggers on <C-o>
+          }
+        }
+      }),
     },
     sources = cmp.config.sources({
-      { name = 'nvim_lsp' },
-      { name = 'vsnip' }, -- For vsnip users.
-      { name = 'emoji' },
-      { name = "copilot" },
-    }, {
+      { name = 'nvim_lsp', priority = 1000 },
+      { name = 'vsnip', priority = 900 }, -- For vsnip users.
+      { name = 'emoji', priority = 200 },
+    }, { -- When no completion is available from first block
       { name = 'path' },
       { name = 'buffer', keyword_length = 3 },
       --{ name = 'rg' },
