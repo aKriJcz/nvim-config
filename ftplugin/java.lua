@@ -52,8 +52,8 @@ local on_attach_jdtls = function(client, bufnr)
   vim.api.nvim_buf_set_keymap(bufnr, 'n', '<Leader>o', '<Cmd>lua require"jdtls".organize_imports()<CR>', opts)
 
   wkey.register {
-    ["<Leader>dta"] = { ":lua require'jdtls'.test_class()<CR>",           "Test class" },
-    ["<Leader>dti"] = { ":lua require'jdtls'.test_nearest_method()<CR>",  "Test method" },
+    { "<Leader>dta", ":lua require'jdtls'.test_class()<CR>",          desc = "Test class" },
+    { "<Leader>dti", ":lua require'jdtls'.test_nearest_method()<CR>", desc = "Test method" },
   }
 
   -- https://github.com/mfussenegger/nvim-dap/issues/446
