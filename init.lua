@@ -253,6 +253,19 @@ let g:ripgrep#root_marks = [ "." ]
 command! -nargs=+ -complete=file Ripgrep :call ripgrep#search(<q-args>)
 ]]
 
+
+-- Git fixup
+vim.api.nvim_create_user_command("GitFixup", function (opts)
+  local refspec = opts.args ---@type string
+  --vim.api.nvim_buf_set_lines(0, 0, 1, false, { "fixup!" })
+
+  local row, _ = unpack(vim.api.nvim_win_get_cursor(0))  ---@type integer, integer Get cursor row (1-based)
+  vim.api.nvim_buf_set_lines(0, row, row, false, { "fixup!" })
+
+  vim.cmd("R git fup")
+end, { nargs = "*", force = true })
+
+
 -- zig.vim
 vim.g.zig_fmt_autosave = 0
 
