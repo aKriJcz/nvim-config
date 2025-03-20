@@ -73,7 +73,7 @@ local setup = function ()
   -- Use a loop to conveniently call 'setup' on multiple servers and
   -- map buffer local keybindings when the language server attaches
   --local servers = { 'zls', 'rnix', 'texlab', 'clangd', 'zk', 'vimls', 'bashls', 'cssls' }
-  local servers = { 'zls', 'texlab', 'clangd', 'zk', 'vimls', 'bashls', 'svelte', 'ts_ls' }
+  local servers = { 'zls', 'texlab', 'clangd', 'zk', 'vimls', 'bashls', 'svelte' }
 
   for _, lsp in pairs(servers) do
     lspconfig[lsp].setup(lspdef)
@@ -113,6 +113,7 @@ local setup = function ()
         workspace = {
           checkThirdParty = false,
           library = {
+            -- TODO: make some better path
             ['/nix/store/kvw415nrr9ijlpizhw8sfmslmf0hmqgn-awesome-4.3/share/awesome/lib'] = true,
           }
         };
@@ -129,6 +130,21 @@ local setup = function ()
       }
     }
   })
+
+  lspconfig.ts_ls.setup(vim.tbl_extend("force", lspdef, {
+    init_options = {
+      plugins = {
+        {
+          name = "typescript-svelte-plugin",
+          -- TODO: make some better path
+          -- npm config set prefix /home/jirka/node_packages
+          -- npm install -g typescript-svelte-plugin
+          location = "/home/jirka/node_packages/lib/node_modules/typescript-svelte-plugin",
+          languages = {"javascript", "typescript"},
+        },
+      },
+    },
+  }))
 end
 
 
