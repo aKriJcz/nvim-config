@@ -7,7 +7,7 @@ vim.api.nvim_set_keymap('n', '<Leader>H', ':call LongLineHLToggle()<cr>', { nore
 vim.api.nvim_set_keymap('n', 'yr', ':let @+ = join([expand("%"),  line(".")], ":")<cr>', { noremap = true }) -- FIXME: is dependent on timing between keys. Why?!
 
 -- Moving around in command mode
---vim.api.nvim_set_keymap('c', '<C-j>', '<down>', { noremap = true })
---vim.api.nvim_set_keymap('c', '<C-k>', '<up>',   { noremap = true })
+vim.api.nvim_set_keymap('c', '<C-j>', '<C-n>', { noremap = true })
+vim.api.nvim_set_keymap('c', '<C-k>', '<C-p>',   { noremap = true })
 
 -- inoremap <C-b> <C-x><C-f>
