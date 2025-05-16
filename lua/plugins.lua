@@ -117,6 +117,9 @@ vim.g.matchup_surround_enabled = 1
 -- vim-markdown
 vim.g.vim_markdown_conceal_code_blocks = 0
 
+-- pear-tree
+--vim.g.pear_tree_repeatable_expand = 0
+
 -- vim-fluffy
 --cmap <space> <plug>(fluffy-space)
 vim.keymap.set("c", "<space>", "<plug>(fluffy-space)", { desc = "Fluffy space" })
