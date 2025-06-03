@@ -119,6 +119,22 @@ vim.g.vim_markdown_conceal_code_blocks = 0
 
 -- pear-tree
 --vim.g.pear_tree_repeatable_expand = 0
+--<Plug>(PearTreeJump)
+-- TODO: read more and find better solution
+-- https://chatgpt.com/c/682ad9d7-7ed0-8003-90d6-782bae25e5f5
+vim.keymap.set("i", "<Tab>", function()
+  local closers = { [")"] = true, ["]"] = true, ["}"] = true, ['"'] = true, ["'"] = true, ["`"] = true }
+  local col = vim.fn.col('.')
+  local line = vim.fn.getline('.')
+  local next_char = line:sub(col, col)
+  if closers[next_char] then
+    vim.api.nvim_feedkeys(vim.api.nvim_replace_termcodes("<Plug>(PearTreeJump)", true, false, true), "n", false)
+    return "" -- prevent inserting literal characters
+  else
+    return vim.api.nvim_replace_termcodes("<Tab>", true, false, true)
+  end
+end, { expr = true, noremap = true })
+
 
 -- vim-fluffy
 --cmap <space> <plug>(fluffy-space)
