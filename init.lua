@@ -37,40 +37,8 @@ set.undofile = true
 set.list = true
 set.listchars = { tab = '» ', trail = '·' }
 
-require("monokai-pro").setup {
-  terminal_colors = true,
-  filter = "octagon", -- classic | octagon | pro | machine | ristretto | spectrum
-  devicons = true, -- highlight the icons of `nvim-web-devicons`
-
-  ---@param c Colorscheme
-  override = function(c)
-    return {
-      IndentBlanklineChar = { fg = c.base.dimmed4 },
-    }
-  end,
-
-  --- @param filter "classic" | "machine" | "octagon" | "pro" | "ristretto" | "spectrum"
-  overridePalette = function(filter)
-    return {
-      dark2 = "#101014",
-      dark1 = "#16161E",
-      background = "#1A1B26",
-      text = "#C0CAF5",
-      accent1 = "#f7768e",
-      accent2 = "#7aa2f7",
-      accent3 = "#e0af68",
-      accent4 = "#9ece6a",
-      accent5 = "#0DB9D7",
-      accent6 = "#9d7cd8",
-      dimmed1 = "#737aa2",
-      dimmed2 = "#787c99",
-      dimmed3 = "#363b54",
-      dimmed4 = "#363b54",
-      dimmed5 = "#16161e",
-    }
-  end
-}
-vim.cmd.colorscheme('monokai-pro')
+vim.opt.termguicolors = true
+vim.cmd.colorscheme('molokaj')
 
 -- Folding
 set.foldmethod = 'syntax'
