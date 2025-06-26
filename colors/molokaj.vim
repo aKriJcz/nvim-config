@@ -143,7 +143,7 @@ call Highlight('PmenuSbar', { 'fg': s:none, 'bg': s:black, 'style': s:none }) " 
 call Highlight('PmenuThumb', { 'fg': s:light_blue, 'bg': s:none, 'style': s:none })
 
 call Highlight('PreCondit', { 'fg': s:light_green, 'bg': s:none, 'style': s:bold })
-call Highlight('PreProc', { 'fg': s:light_green, 'bg': s:none, 'style': s:none })
+call Highlight('PreProc', { 'fg': s:yellow, 'bg': s:none, 'style': s:none })
 call Highlight('Question', { 'fg': s:light_blue, 'bg': s:none, 'style': s:none })
 call Highlight('Repeat', { 'fg': s:magenta, 'bg': s:none, 'style': s:bold })
 call Highlight('Search', { 'fg': s:white, 'bg': s:darker_grey, 'style': s:bold })
@@ -155,7 +155,7 @@ call Highlight('SpecialComment', { 'fg': s:white, 'bg': s:none, 'style': s:bold 
 call Highlight('Special', { 'fg': s:light_blue, 'bg': s:none, 'style': s:italic })
 call Highlight('Statement', { 'fg': s:magenta, 'bg': s:none, 'style': s:bold })
 call Highlight('StatusLineNC', { 'fg': s:grey, 'bg': s:almost_black, 'style': s:none })
-call Highlight('StorageClass', { 'fg': s:orange, 'bg': s:none, 'style': s:italic })
+call Highlight('StorageClass', { 'fg': s:magenta, 'bg': s:none, 'style': s:italic })
 call Highlight('Structure', { 'fg': s:light_blue, 'bg': s:none, 'style': s:none })
 call Highlight('Tag', { 'fg': s:magenta, 'bg': s:none, 'style': s:italic })
 call Highlight('Title', { 'fg': s:orange, 'bg': s:none, 'style': s:none })
@@ -173,6 +173,12 @@ call Highlight('WildMenu', { 'fg': s:light_blue, 'bg': s:black, 'style': s:none 
 
 call Highlight('LineNr', { 'fg': s:light_grey, 'bg': s:almost_black, 'style': s:none })
 call Highlight('NonText', { 'fg': s:light_grey, 'bg': s:almost_black, 'style': s:none })
+
+
+" Specific file type overrides {{{
+call Highlight('javaExternal', { 'fg': s:magenta, 'bg': s:none, 'style': s:none })
+" }}}
+
 
 
 if has("spell")
