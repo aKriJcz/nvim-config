@@ -177,6 +177,9 @@ call Highlight('NonText', { 'fg': s:light_grey, 'bg': s:almost_black, 'style': s
 
 " Specific file type overrides {{{
 call Highlight('javaExternal', { 'fg': s:magenta, 'bg': s:none, 'style': s:none })
+
+call Highlight('xmlTag', { 'fg': s:magenta, 'bg': s:none, 'style': s:none })
+call Highlight('xmlTagName', { 'fg': s:magenta, 'bg': s:none, 'style': s:none })
 " }}}
 
 
