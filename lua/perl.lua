@@ -1,8 +1,15 @@
 --
 -- Perl integration
 --
+if not vim.fn.has('perl') then
+    return
+end
 
 local wkey = require("which-key")
+
+vim.cmd [[
+perlfile ./perl/Util.pm
+]]
 
 -- HTML entities coding
 -- https://vim.fandom.com/wiki/HTML_entities
@@ -30,7 +37,21 @@ endfunction
 ]]
 
 
+
+vim.cmd [[
+function! HTMLEncodeVisual()
+perl << EOF
+use Data::Dumper 'Dumper';
+use HTML::Entities;
+
+apply_selection(\&encode_entities);
+
+EOF
+endfunction
+]]
+
+
 wkey.add {
-  { "<Leader>ehe", ":call HTMLEncode()<CR>", mode = "nv", desc = "Encode characters to HTML characters" },
+  { "<Leader>ehe", ":call HTMLEncodeVisual()<CR>", mode = "nv", desc = "Encode characters to HTML characters" },
   { "<Leader>ehd", ":call HTMLDecode()<CR>", mode = "nv", desc = "Decode characters from HTML characters" },
 }
