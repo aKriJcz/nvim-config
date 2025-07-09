@@ -294,6 +294,7 @@ vim.g.vim_svelte_plugin_use_less = 1
 require("keybindings")
 require("plugins")
 require("interactive-commands")
+require("perl")
 
 -- TODO
 -- 
