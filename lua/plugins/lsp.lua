@@ -84,18 +84,7 @@ local setup = function ()
     cmd = { "haskell-language-server", "--lsp" },
   }))
 
-  lspconfig.perlpls.setup(vim.tbl_extend("force", lspdef, {
-    --cmd = { "perl", vim.fn.systemlist("which pls")[1] },
-    root_dir = function () return'/home/jirka/pgm/perl'; end,
-    settings = {
-      perl = {
-        inc = { '/home/jirka/tcz/urdk/Registration/lib' }, -- TODO: dynamicky
-        perlcritic = {
-          enabled = true,
-          severity = 4,
-        },
-      },
-    },
+  lspconfig.perlnavigator.setup(vim.tbl_extend("force", lspdef, {
   }))
 
   lspconfig.nixd.setup(vim.tbl_extend("force", lspdef, {
