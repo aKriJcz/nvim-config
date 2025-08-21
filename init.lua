@@ -88,10 +88,51 @@ au FileType xml command! Format %!xmllint --format -
 au FileType html command! Format %!tidy --indent yes --show-body-only auto
 au FileType json command! Format %!jq .
 au FileType sql command! -range=% Format <line1>,<line2>!sqlformat --reindent --keywords upper --identifiers lower -
-]]
 
-vim.cmd [[
 au BufNewFile,BufRead *.tt :set filetype=html
+
+
+augroup giteditor_config
+  autocmd!
+
+  autocmd FileType gitrebase set cursorline
+  autocmd FileType gitrebase setlocal spell spelllang=cs,en_gb
+
+  autocmd FileType gitcommit setlocal spell spelllang=cs,en_gb
+augroup END
+
+
+augroup markdown_config
+  autocmd!
+  autocmd FileType markdown setlocal spell spelllang=cs,en_gb
+
+  "pandoc CHANGELOG.md | w3m -T text/html -dump
+  autocmd FileType markdown let g:previewer="clear ; pandoc % | w3m -T text/html -dump | less"
+augroup END
+
+
+" Mail config
+" http://brianbuccola.com/line-breaks-in-mutt-and-vim/
+" Add format option 'w' to add trailing white space, indicating that paragraph
+" continues on next line. This is to be used with mutt's 'text_flowed' option.
+"augroup mail_trailing_whitespace
+augroup mail_config
+  autocmd!
+  " Trailing whitespace
+  autocmd FileType mail setlocal formatoptions+=w
+  " Setting spell check languages
+  autocmd FileType mail setlocal spell spelllang=cs,en_gb
+augroup END
+
+let g:checkattach_filebrowser = 'ranger'
+
+
+" https://www.reddit.com/r/neovim/comments/suy5j7/highlight_yanked_text/
+" highlight yanked text for 200ms using the "Visual" highlight group
+augroup highlight_yank
+  autocmd!
+  au TextYankPost * silent! lua vim.highlight.on_yank({higroup="Visual", timeout=200})
+augroup END
 ]]
 
 
@@ -111,36 +152,6 @@ function LongLineHLToggle()
 endfunction
 ]]
 
-
--- Mail config
-vim.cmd [[
-" http://brianbuccola.com/line-breaks-in-mutt-and-vim/
-" Add format option 'w' to add trailing white space, indicating that paragraph
-" continues on next line. This is to be used with mutt's 'text_flowed' option.
-"augroup mail_trailing_whitespace
-augroup mail_config
-  autocmd!
-  " Trailing whitespace
-  autocmd FileType mail setlocal formatoptions+=w
-  " Setting spell check languages
-  autocmd FileType mail setlocal spell spelllang=cs,en_gb
-augroup END
-
-augroup gitcommit_config
-  autocmd!
-  autocmd FileType gitcommit setlocal spell spelllang=cs,en_gb
-augroup END
-
-augroup markdown_config
-  autocmd!
-  autocmd FileType markdown setlocal spell spelllang=cs,en_gb
-
-  "pandoc CHANGELOG.md | w3m -T text/html -dump
-  autocmd FileType markdown let g:previewer="clear ; pandoc % | w3m -T text/html -dump | less"
-augroup END
-
-let g:checkattach_filebrowser = 'ranger'
-]]
 
 vim.cmd [[
 command InsertDate let z=system("date +%F") | execute "normal i".z
@@ -275,15 +286,6 @@ au FileType eruby,xml,html,phtml,php,xhtml,js let b:delimitMate_matchpairs = "(:
 
 " These are the file types where this plugin is enabled.
 let g:closetag_filetypes = 'xml,html,xhtml,phtml,eruby'
-]]
-
--- https://www.reddit.com/r/neovim/comments/suy5j7/highlight_yanked_text/
--- highlight yanked text for 200ms using the "Visual" highlight group
-vim.cmd[[
-augroup highlight_yank
-autocmd!
-au TextYankPost * silent! lua vim.highlight.on_yank({higroup="Visual", timeout=200})
-augroup END
 ]]
 
 -- vim-svelte-plugin
