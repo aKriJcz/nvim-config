@@ -5,11 +5,13 @@ local cmp = require('cmp')
 
 local setup = function()
   cmp.setup({
+
     snippet = {
       expand = function(args)
         vim.fn["vsnip#anonymous"](args.body) -- For `vsnip` users.
       end,
     },
+
     mapping = {
       --['<Tab>'] = cmp.mapping.select_next_item({ behavior = cmp.SelectBehavior.Insert }),
       --['<S-Tab>'] = cmp.mapping.select_prev_item({ behavior = cmp.SelectBehavior.Insert }),
@@ -30,6 +32,7 @@ local setup = function()
         }
       }),
     },
+
     sources = cmp.config.sources({
       { name = 'vsnip', priority = 1000 }, -- For vsnip users.
       { name = 'nvim_lsp', priority = 900 },
@@ -39,7 +42,14 @@ local setup = function()
       { name = 'buffer', keyword_length = 3 },
       --{ name = 'rg' },
       --{ name = 'nvim_lua' }, -- cmp-nvim-lua
-    })
+    }),
+
+    window = {
+      documentation = {
+        max_height = 100
+      },
+    },
+
   })
 end
 
