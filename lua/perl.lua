@@ -34,6 +34,20 @@ perl << EOF
  $curbuf->Set($pos[0],$encvalue)
 EOF
 endfunction
+
+" TODO: rewrite to LUA/vimscript someday
+function! PerlPackageName()
+perl << EOF
+  $_ = VIM::Eval( 'expand("%:p")' );
+  die "Not a Perl module: $_" unless /.pm$/;
+  $_ = (split 'lib/')[1];
+  die "Cannot determine module name from $filepath. Not in a lib/ dir?" unless defined $_;
+  s|/|::|g;
+  s|.pm$||;
+  VIM::DoCommand( "let g:perl_vsnip_package = '$_'" );
+EOF
+return g:perl_vsnip_package
+endfunction
 ]]
 
 
