@@ -127,11 +127,28 @@ vim.keymap.set("i", "<Tab>", function()
   local col = vim.fn.col('.')
   local line = vim.fn.getline('.')
   local next_char = line:sub(col, col)
+
   if closers[next_char] then
-    vim.api.nvim_feedkeys(vim.api.nvim_replace_termcodes("<Plug>(PearTreeJump)", true, false, true), "n", false)
-    return "" -- prevent inserting literal characters
+    -- 1. PearTree jump
+    vim.api.nvim_feedkeys(
+      vim.api.nvim_replace_termcodes("<Plug>(PearTreeJump)", true, false, true),
+      "n",
+      false
+    )
+    return ""
+
+  elseif vim.fn["vsnip#jumpable"](1) == 1 then
+    -- 2. vsnip: jump to next placeholder
+    vim.api.nvim_feedkeys(
+      vim.api.nvim_replace_termcodes("<Plug>(vsnip-jump-next)", true, false, true),
+      "",
+      true
+    )
+    return ""
+
   else
-    return vim.api.nvim_replace_termcodes("<Tab>", true, false, true)
+    -- 3. fallback to normal Tab
+    return vim.api.nvim_replace_termcodes("<Tab>", true, true, true)
   end
 end, { expr = true, noremap = true })
 
