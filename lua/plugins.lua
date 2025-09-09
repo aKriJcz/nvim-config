@@ -101,6 +101,9 @@ require("fzf-lua").setup {
   }
 }
 
+require('orgmode').setup {
+}
+
 
 ---- copilot-lua
 --require("copilot").setup {
