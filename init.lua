@@ -298,6 +298,14 @@ require("plugins")
 require("interactive-commands")
 require("perl")
 
+
+-- Custom helper commands
+vim.cmd [[
+" Convert PostgreSQL ranges
+command! -range=% ConvPostgreSQLRange :<line1>,<line2> perldo $_ =~ s/\["(.*?)",\s*"(.*?)"\)/'[\1, \2)'/<cr>
+]]
+
+
 -- TODO
 -- 
 --let g:tex_fold_enabled=1
