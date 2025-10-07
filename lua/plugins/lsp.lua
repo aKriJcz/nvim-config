@@ -7,7 +7,6 @@ require("neodev").setup{}
 
 -- Debug LSP
 -- :lua print(vim.inspect(vim.lsp.get_active_clients()))
-local lspconfig = require('lspconfig')
 local fzf_lua = require('fzf-lua')
 
 -- Use an on_attach function to only map the following keys
@@ -76,24 +75,28 @@ local setup = function ()
   local servers = { 'zls', 'texlab', 'clangd', 'zk', 'vimls', 'bashls', 'svelte' }
 
   for _, lsp in pairs(servers) do
-    lspconfig[lsp].setup(lspdef)
-    --lspconfig[lsp].setup(coq.lsp_ensure_capabilities())
+    vim.lsp.config(lsp, lspdef)
+    vim.lsp.enable(lsp)
   end
 
-  lspconfig.hls.setup(vim.tbl_extend("force", lspdef, {
+
+  vim.lsp.config('hls', vim.tbl_extend("force", lspdef, {
     cmd = { "haskell-language-server", "--lsp" },
   }))
+  vim.lsp.enable('hls')
 
-  lspconfig.perlnavigator.setup(vim.tbl_extend("force", lspdef, {
+
+  vim.lsp.config('perlnavigator', vim.tbl_extend("force", lspdef, {
   }))
+  vim.lsp.enable('perlnavigator')
 
-  lspconfig.nixd.setup(vim.tbl_extend("force", lspdef, {
-    --settings = {
-    --},
+
+  vim.lsp.config('nixd', vim.tbl_extend("force", lspdef, {
   }))
+  vim.lsp.enable('nixd')
 
-  --lspconfig.sumneko_lua.setup(vim.tbl_extend("force", lspdef, neodev))
-  lspconfig.lua_ls.setup({
+
+  vim.lsp.config('lua_ls', {
     settings = {
       Lua = {
         completion = {
@@ -119,8 +122,10 @@ local setup = function ()
       }
     }
   })
+  vim.lsp.enable('lua_ls')
 
-  lspconfig.ts_ls.setup(vim.tbl_extend("force", lspdef, {
+
+  vim.lsp.config('ts_ls', vim.tbl_extend("force", lspdef, {
     init_options = {
       plugins = {
         {
@@ -134,6 +139,8 @@ local setup = function ()
       },
     },
   }))
+  vim.lsp.enable('ts_ls')
+
 end
 
 
