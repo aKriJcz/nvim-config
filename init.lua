@@ -69,7 +69,7 @@ map <F11> :<C-U>call MySpellLang()<CR>
 
 -- Boxes
 vim.api.nvim_create_autocmd('FileType', {
-  pattern = { 'text', 'sh', 'conf', 'sshconfig', 'ldif' },
+  pattern = { 'text', 'sh', 'conf', 'sshconfig', 'ldif', 'perl' },
   command = [[ map <buffer> <F3> :'<,'>!boxes -d shell -s 80 -a c<CR> ]],
 })
 vim.api.nvim_create_autocmd('FileType', {
