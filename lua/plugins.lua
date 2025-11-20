@@ -107,6 +107,15 @@ require('orgmode').setup {
   org_id_link_to_org_use_id = true,
 }
 
+require("dbee").setup {
+  -- https://github.com/kndndrj/nvim-dbee?tab=readme-ov-file#specifying-connections
+  sources = {
+    require("dbee.sources").EnvSource:new("DBEE_CONNECTIONS"),
+    require("dbee.sources").FileSource:new("/tmp/dbee-connections.json"),
+  },
+}
+require("cmp-dbee").setup {}
+
 
 ---- copilot-lua
 --require("copilot").setup {

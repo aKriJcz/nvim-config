@@ -36,6 +36,7 @@ local setup = function()
     sources = cmp.config.sources({
       { name = 'vsnip', priority = 1000 }, -- For vsnip users.
       { name = 'nvim_lsp', priority = 900 },
+      { name = 'dbee', priority = 700 },
       { name = 'emoji', priority = 200 },
     }, { -- When no completion is available from first block
       { name = 'path' },
