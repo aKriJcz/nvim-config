@@ -305,6 +305,26 @@ vim.cmd [[
 command! -range=% ConvPostgreSQLRange :<line1>,<line2> perldo $_ =~ s/\["(.*?)",\s*"(.*?)"\)/'[\1, \2)'/<cr>
 ]]
 
+-- Perl helper commands
+vim.cmd [[
+"define :Tidy command to run perltidy on visual selection || entire buffer"
+command -range=% -nargs=* Tidy <line1>,<line2>!perltidy
+
+"run :Tidy on entire buffer and return cursor to (approximate) original position"
+fun DoTidy()
+    let l = line(".")
+    let c = col(".")
+    :Tidy
+    call cursor(l, c)
+endfun
+
+"shortcut for normal mode to run on entire buffer then return to current line"
+au Filetype perl nmap <F2> :call DoTidy()<CR>
+
+"shortcut for visual mode to run on the current visual selection"
+au Filetype perl vmap <F2> :Tidy<CR>
+]]
+
 
 -- TODO
 -- 
