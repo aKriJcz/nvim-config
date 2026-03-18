@@ -128,7 +128,7 @@ call Highlight('Ignore', { 'fg': s:grey, 'bg': s:none, 'style': s:none })
 call Highlight('IncSearch', { 'fg': s:yellow, 'bg': s:black, 'style': s:none })
 
 call Highlight('Keyword', { 'fg': s:magenta, 'bg': s:none, 'style': s:bold })
-call Highlight('Label', { 'fg': s:beige, 'bg': s:none, 'style': s:none })
+call Highlight('Label', { 'fg': s:orange, 'bg': s:none, 'style': s:none })
 call Highlight('SpecialKey', { 'fg': s:light_blue, 'bg': s:none, 'style': s:italic })
 
 call Highlight('MatchParen', { 'fg': s:black, 'bg': s:orange, 'style': s:bold })
