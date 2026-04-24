@@ -101,6 +101,16 @@ local jdtls_config = {
         },
         useBlocks = true,
       };
+      -- https://www.reddit.com/r/neovim/comments/1n2ex0r/receive_help_on_typing_during_the_java_stream/
+      eclipse = {
+        downloadSources = true,
+        downloadJavadoc = true,
+      },
+      referencesCodeLens = { enabled = true },
+      implementationsCodeLens = { enabled = true },
+      inlayHints = {
+        parameterNames = { enabled = "all" },
+      },
       --configuration = {
       --  runtimes = {
       --    {
