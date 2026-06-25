@@ -3,6 +3,7 @@
 local wkey = require("which-key")
 local dap = require("dap")
 
+
 dap.configurations.lua = {
   {
     type = 'nlua', 
@@ -25,6 +26,25 @@ dap.configurations.lua = {
 dap.adapters.nlua = function(callback, config)
   callback({ type = 'server', host = config.host, port = config.port })
 end
+
+
+dap.configurations.perl = {
+    {
+       type = 'perl',
+       request = 'launch',
+       name = 'Launch Perl',
+       program = '${workspaceFolder}/${relativeFile}',
+    }
+}
+dap.adapters.perl = {
+  type = 'executable',
+  command = 'perl-debug-adapter',
+  args = {},
+}
+
+
+--dap.set_log_level 'TRACE'
+
 
 --map("n", "<F4>", ":lua require('dapui').toggle()<CR>")
 --map("n", "<F5>", ":lua require('dap').toggle_breakpoint()<CR>")
