@@ -1,7 +1,8 @@
 -- nvim-treesitter-refactor
 require'nvim-treesitter'.setup {
   highlight = {
-    --enable = true
+    enable = true,
+    disable = function() return vim.b.large_buf end,
   },
   refactor = {
     highlight_definitions = {
