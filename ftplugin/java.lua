@@ -35,7 +35,6 @@ if root_dir ~= nil then
 end
 
 
-local dap = require("dap")
 -- TODO: deduplikovat!
 local on_attach_jdtls = function(client, bufnr)
   local opts = { noremap=true, silent=true }
@@ -49,11 +48,11 @@ local on_attach_jdtls = function(client, bufnr)
   jdtls.setup_dap()
   --jdtls.setup.add_commands()
 
-  vim.api.nvim_buf_set_keymap(bufnr, 'n', '<Leader>o', '<Cmd>lua require"jdtls".organize_imports()<CR>', opts)
-
-  wkey.register {
-    { "<Leader>dta", ":lua require'jdtls'.test_class()<CR>",          desc = "Test class" },
-    { "<Leader>dti", ":lua require'jdtls'.test_nearest_method()<CR>", desc = "Test method" },
+  wkey.add {
+    { "<Leader>dt", group = "Test", buffer = bufnr },
+    { "<Leader>dta", function() require('jdtls').test_class() end,          desc = "Test class", buffer = bufnr },
+    { "<Leader>dti", function() require('jdtls').test_nearest_method() end, desc = "Test method", buffer = bufnr },
+    { "<Leader>lo", function() require('jdtls').organize_imports() end,     desc = "Organize imports", buffer = bufnr },
   }
 
   -- https://github.com/mfussenegger/nvim-dap/issues/446

@@ -3,14 +3,17 @@ wkey.setup {}
 
 
 -- Key bindings
-vim.api.nvim_set_keymap('n', '<Leader>H', ':call LongLineHLToggle()<cr>', { noremap = true })
-vim.api.nvim_set_keymap('n', 'yr', ':let @+ = join([expand("%"),  line(".")], ":")<cr>', { noremap = true }) -- FIXME: is dependent on timing between keys. Why?!
+wkey.add {
+  { "<Leader>H", "<cmd>call LongLineHLToggle()<cr>", desc = "Toggle long line highlight" },
+  -- FIXME: is dependent on timing between keys. Why?!
+  { "yr", '<cmd>let @+ = join([expand("%"),  line(".")], ":")<cr>', desc = "Yank file:line to clipboard" },
 
--- Moving around in command mode
-vim.api.nvim_set_keymap('c', '<C-j>', '<C-n>', { noremap = true })
-vim.api.nvim_set_keymap('c', '<C-k>', '<C-p>',   { noremap = true })
+  -- Moving around in command mode
+  { "<C-j>", "<C-n>", mode = "c", silent = false, desc = "Next match" },
+  { "<C-k>", "<C-p>", mode = "c", silent = false, desc = "Previous match" },
 
--- Show highlight group under cursor
-vim.api.nvim_set_keymap('n', 'zS', ':call SynGroup()<cr>', { noremap = true })
+  -- Show highlight group under cursor
+  { "zS", "<cmd>call SynGroup()<cr>", desc = "Show highlight group under cursor" },
+}
 
 -- inoremap <C-b> <C-x><C-f>

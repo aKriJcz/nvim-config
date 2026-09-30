@@ -27,14 +27,14 @@ aerial.setup({
     "Struct",
   },
   on_attach = function(bufnr)
-    -- Toggle the aerial window with <leader>a
-    vim.api.nvim_buf_set_keymap(bufnr, 'n', '<leader>a', '<cmd>AerialToggle!<CR>', {})
-    -- Jump forwards/backwards with '{' and '}'
-    vim.api.nvim_buf_set_keymap(bufnr, 'n', '{', '<cmd>AerialPrev<CR>', {})
-    vim.api.nvim_buf_set_keymap(bufnr, 'n', '}', '<cmd>AerialNext<CR>', {})
-    -- Jump up the tree with '[[' or ']]'
-    vim.api.nvim_buf_set_keymap(bufnr, 'n', '[[', '<cmd>AerialPrevUp<CR>', {})
-    vim.api.nvim_buf_set_keymap(bufnr, 'n', ']]', '<cmd>AerialNextUp<CR>', {})
+    wkey.add {
+      buffer = bufnr,
+      { "<leader>a", "<cmd>AerialToggle!<CR>", desc = "Toggle aerial" },
+      { "{",         "<cmd>AerialPrev<CR>",    desc = "Aerial previous symbol" },
+      { "}",         "<cmd>AerialNext<CR>",    desc = "Aerial next symbol" },
+      { "[[",        "<cmd>AerialPrevUp<CR>",  desc = "Aerial previous symbol up the tree" },
+      { "]]",        "<cmd>AerialNextUp<CR>",  desc = "Aerial next symbol up the tree" },
+    }
   end,
 })
 

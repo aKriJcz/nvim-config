@@ -8,44 +8,50 @@ require("neodev").setup{}
 -- Debug LSP
 -- :lua print(vim.inspect(vim.lsp.get_active_clients()))
 local fzf_lua = require('fzf-lua')
+local wkey = require('which-key')
 
 -- Use an on_attach function to only map the following keys
 -- after the language server attaches to the current buffer
 local on_attach = function(_, bufnr)
-  local opts = { noremap=true, silent=true }
   -- Enable completion triggered by <c-x><c-o>
   --vim.api.nvim_buf_set_option(bufnr, 'omnifunc', 'v:lua.vim.lsp.omnifunc')
 
   -- Mappings.
   -- See `:help vim.lsp.*` for documentation on any of the below functions
-  vim.api.nvim_buf_set_keymap(bufnr, 'n', 'gD', '<cmd>lua vim.lsp.buf.declaration()<CR>', opts)
-  vim.api.nvim_buf_set_keymap(bufnr, 'n', 'gd', '<cmd>lua vim.lsp.buf.definition()<CR>', opts)
-  vim.api.nvim_buf_set_keymap(bufnr, 'n', 'gi', '<cmd>lua vim.lsp.buf.implementation()<CR>', opts)
-  vim.api.nvim_buf_set_keymap(bufnr, 'n', 'K', '<cmd>lua vim.lsp.buf.hover()<CR>', opts)
-  vim.api.nvim_buf_set_keymap(bufnr, 'i', '<C-h>', '<cmd>lua vim.lsp.buf.signature_help()<CR>', opts)
-  vim.api.nvim_buf_set_keymap(bufnr, 'n', '<Leader>h', '<cmd>lua vim.lsp.buf.signature_help()<CR>', opts)
-  vim.api.nvim_buf_set_keymap(bufnr, 'n', '<space>lwa', '<cmd>lua vim.lsp.buf.add_workspace_folder()<CR>', opts)
-  vim.api.nvim_buf_set_keymap(bufnr, 'n', '<space>lwr', '<cmd>lua vim.lsp.buf.remove_workspace_folder()<CR>', opts)
-  vim.api.nvim_buf_set_keymap(bufnr, 'n', '<space>lwl', '<cmd>lua print(vim.inspect(vim.lsp.buf.list_workspace_folders()))<CR>', opts)
-  vim.api.nvim_buf_set_keymap(bufnr, 'n', '<space>rn', '<cmd>lua vim.lsp.buf.rename()<CR>', opts)
-  vim.api.nvim_buf_set_keymap(bufnr, 'n', '<space>ca', '<cmd>lua vim.lsp.buf.code_action()<CR>', opts)
+  wkey.add {
+    buffer = bufnr,
+    { "gD",         vim.lsp.buf.declaration,     desc = "LSP declaration" },
+    { "gd",         vim.lsp.buf.definition,      desc = "LSP definition" },
+    { "gi",         vim.lsp.buf.implementation,  desc = "LSP implementation" },
+    { "grr",        fzf_lua.lsp_references,      desc = "LSP references" },
+    { "K",          vim.lsp.buf.hover,           desc = "LSP hover" },
+    { "<C-h>",      vim.lsp.buf.signature_help,  desc = "LSP signature help", mode = "i" },
+    { "<Leader>h",  vim.lsp.buf.signature_help,  desc = "LSP signature help" },
+    { "<space>rn",  vim.lsp.buf.rename,          desc = "LSP rename" },
+    { "<space>ca",  vim.lsp.buf.code_action,     desc = "LSP code action" },
+    { "<space>D",   vim.lsp.buf.type_definition, desc = "LSP type definition" },
 
-  vim.api.nvim_buf_set_keymap(bufnr, 'n', '<space>D', '<cmd>lua vim.lsp.buf.type_definition()<CR>', opts)
-  --vim.api.nvim_buf_set_keymap(bufnr, 'n', '<space>la', '<cmd>lua vim.lsp.buf.code_action()<CR>', opts)
-  vim.api.nvim_buf_set_keymap(bufnr, 'n', '<space>lf', '<cmd>lua vim.lsp.buf.format()<CR>', opts)
+    { "<space>l",   group = "LSP" },
+    { "<space>lD",  fzf_lua.lsp_declarations,    desc = "LSP declarations" },
+    { "<space>ld",  fzf_lua.lsp_definitions,     desc = "LSP definitions" },
+    { "<space>li",  fzf_lua.lsp_implementations, desc = "LSP implementations" },
+    { "<space>ll",  fzf_lua.lsp_finder,          desc = "LSP finder" },
+    { "<space>lf",  function() vim.lsp.buf.format() end, desc = "LSP format" },
+    --{ "<space>la", vim.lsp.buf.code_action,    desc = "LSP code action" },
 
-  vim.keymap.set("n", "<space>lD", fzf_lua.lsp_declarations, { buffer = bufnr, desc = "LSP declarations" })
-  vim.keymap.set("n", "<space>ld", fzf_lua.lsp_definitions, { buffer = bufnr, desc = "LSP definitions" })
-  vim.keymap.set("n", "gr", fzf_lua.lsp_references, { buffer = bufnr, desc = "LSP references" })
-  vim.keymap.set("n", "<space>li", fzf_lua.lsp_implementations, { buffer = bufnr, desc = "LSP implementations" })
-  vim.keymap.set("n", "<space>ll", fzf_lua.lsp_finder, { buffer = bufnr, desc = "LSP finder" })
+    { "<space>lw",  group = "LSP workspace" },
+    { "<space>lwa", vim.lsp.buf.add_workspace_folder,    desc = "Add workspace folder" },
+    { "<space>lwr", vim.lsp.buf.remove_workspace_folder, desc = "Remove workspace folder" },
+    { "<space>lwl", function() print(vim.inspect(vim.lsp.buf.list_workspace_folders())) end,
+      desc = "List workspace folders" },
 
-  -- LspSaga
-  vim.api.nvim_buf_set_keymap(bufnr, 'n', '<space>la', '<cmd>Lspsaga code_action<CR>', opts)
-  vim.api.nvim_buf_set_keymap(bufnr, 'n', '<space>lr', '<cmd>Lspsaga rename<CR>', opts)
-  vim.api.nvim_buf_set_keymap(bufnr, 'n', '<space>ln', '<cmd>Lspsaga diagnostic_jump_next<CR>', opts)
-  vim.api.nvim_buf_set_keymap(bufnr, 'n', '<space>lp', '<cmd>Lspsaga diagnostic_jump_prev<CR>', opts)
-  --vim.api.nvim_buf_set_keymap(bufnr, 'n', 'K', '<cmd>Lspsaga hover_doc<CR>', opts)
+    -- LspSaga
+    { "<space>la",  "<cmd>Lspsaga code_action<CR>",          desc = "Lspsaga code action" },
+    { "<space>lr",  "<cmd>Lspsaga rename<CR>",               desc = "Lspsaga rename" },
+    { "<space>ln",  "<cmd>Lspsaga diagnostic_jump_next<CR>", desc = "Next diagnostic" },
+    { "<space>lp",  "<cmd>Lspsaga diagnostic_jump_prev<CR>", desc = "Previous diagnostic" },
+    --{ "K",        "<cmd>Lspsaga hover_doc<CR>",            desc = "Lspsaga hover" },
+  }
 
   --navic.attach(client, bufnr)
   --aerial.on_attach(client, bufnr)

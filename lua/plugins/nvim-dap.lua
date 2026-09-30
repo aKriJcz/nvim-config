@@ -85,12 +85,15 @@ wkey.add {
   { "<F7>", ":lua require'dap'.step_into()<CR>",         desc = "DAP Step into" },
   { "<F8>", ":lua require'dap'.step_over()<CR>",         desc = "DAP Step over" },
   { "<F9>", ":lua require'dap'.step_out()<CR>",          desc = "DAP Step out" },
+  { "<Leader>d", group = "Debug" },
+  { "<Leader>db", group = "Breakpoint" },
+  { "<Leader>dr", group = "REPL" },
   { "<Leader>di", ":lua require'dapui'.toggle()<CR>",    desc = "DAP UI" },
-  { "<Leader>dro", ":lua require'dap'.repl.open()<CR>",  desc = "DAP UI" },
+  { "<Leader>dro", ":lua require'dap'.repl.open()<CR>",  desc = "DAP REPL open" },
   { "<Leader>dbc", ":lua require'dap'.set_breakpoint(vim.fn.input('Breakpoint condition: '))<CR>",
-    desc = "DAP UI" },
+    desc = "DAP Conditional breakpoint" },
   { "<Leader>dbm", ":lua require'dap'.set_breakpoint({ nil, nil, vim.fn.input('Log point message: ') })<CR>",
-    desc = "DAP UI" },
+    desc = "DAP Log point" },
 }
 
 -- one-small-step-for-vimkind

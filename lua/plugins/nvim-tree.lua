@@ -91,6 +91,7 @@ nvimtree.setup {
 
 wkey.add {
   { "<F10>", "<cmd>NvimTreeToggle<CR>", desc = "Toggle nvim-tree" },
+  { "<leader>t", group = "nvim-tree" },
   { "<leader>tf", "<cmd>NvimTreeFindFile<CR>", desc = "Find file in nvim-tree" },
   { "<leader>tg", "<cmd>NvimTreeFocus<CR>", desc = "Focus nvim-tree" },
   { "<leader>tp", -- https://github.com/kyazdani42/nvim-tree.lua/issues/860
