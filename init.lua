@@ -6,6 +6,10 @@
 -- https://gist.github.com/davidatsurge/9873d9cb1781f1a37c0f25d24cb1b3ab
 -- https://cj.rs/blog/ultisnips-to-luasnip/
 
+-- Experimental message UI: long messages collapse with a [+x] indicator
+-- instead of a hit-enter prompt. Use g< to see full messages.
+require('vim._core.ui2').enable({})
+
 local set = vim.opt  -- General options
 
 set.number = true
