@@ -40,6 +40,15 @@ local on_attach_jdtls = function(client, bufnr)
   -- https://github.com/mfussenegger/nvim-dap/issues/446
   vim.api.nvim_create_user_command('DapDebugPrepare', require('jdtls.dap').setup_dap_main_class_configs, {})
   vim.api.nvim_create_user_command('JdtUpdateConfig', jdtls.update_project_config, {})
+
+  -- jrun gradle runner (:Jrun, :JrunDebug, ...), only when the jrun package is installed.
+  -- Here, once setup_dap() above has registered the java adapter :JrunDebug attaches with.
+  if vim.fn.exists(':Jrun') == 0 and vim.fn.executable('jrun') == 1 then
+    local ok, jrun = pcall(require, 'jrun')
+    if ok then
+      jrun.setup()
+    end
+  end
 end
 
 -- The command that starts the language server
