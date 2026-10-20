@@ -60,11 +60,11 @@ local cmd = {
   '-configuration', config_folder,
 }
 
--- Paths to java-debug and vscode-java-test jars are generated.
+-- Paths to java-debug and vscode-java-test jars come from the Neovim wrapper (nix/neovim.nix).
 -- See https://github.com/mfussenegger/nvim-jdtls#java-debug-installation
 local bundles = {}
-local ok, generated = pcall(require, 'generated.jdtls')
-if ok then
+local generated = vim.g.nix and vim.g.nix.jdtls
+if generated then
   vim.list_extend(bundles, vim.fn.glob(generated.debug_dir .. "/com.microsoft.java.debug.plugin-*.jar", true, true))
   -- These two jars must not be loaded as bundles (see nvim-jdtls README).
   local excluded = {
@@ -77,7 +77,7 @@ if ok then
     end
   end
 else
-  vim.notify("generated.jdtls not found, java-debug and java-test are disabled", vim.log.levels.WARN)
+  vim.notify("vim.g.nix.jdtls not set, java-debug and java-test are disabled", vim.log.levels.WARN)
 end
 
 local jdtls_config = {

@@ -1,0 +1,11 @@
+--- a/doc/repeatable-motions.txt	2017-07-14 23:20:32.000000000 +0200
++++ b/doc/repeatable-motions.txt	2024-09-04 11:29:33.735624248 +0200
+@@ -29,7 +29,7 @@
+ Just hit |}| to move to the next empty line.
+ 
+ Hitting <C-j> will repeat the previous linewise motion i.e. it will behave as
+-if you hit |}| again. *<C-k>* will perform the same motion but backwards (i.e.
++if you hit |}| again. <C-k> will perform the same motion but backwards (i.e.
+ |{|).
+ 
+ Columnwise motions can be repeated with <C-h> and <C-l> respectively.

@@ -1,7 +1,24 @@
 --
 -- Perl integration
 --
-if not vim.fn.has('perl') then
+-- Perl package name of the current file (lib/Foo/Bar.pm -> Foo::Bar), used by ~/.vsnip/perl.json.
+-- In Lua, so the snippet works without the Perl provider too.
+function _G.perl_package_name()
+  local path = vim.fn.expand('%:p')
+  local name = path:match('lib/(.+)%.pm$')
+  if not name then
+    error('Cannot determine Perl module name from ' .. path .. '. Not a .pm in a lib/ dir?')
+  end
+  return (name:gsub('/', '::'))
+end
+
+vim.cmd [[
+function! PerlPackageName() abort
+  return v:lua.perl_package_name()
+endfunction
+]]
+
+if vim.fn.has('perl') == 0 then
     return
 end
 
@@ -33,20 +50,6 @@ perl << EOF
  $encvalue = decode_entities($line);
  $curbuf->Set($pos[0],$encvalue)
 EOF
-endfunction
-
-" TODO: rewrite to LUA/vimscript someday
-function! PerlPackageName()
-perl << EOF
-  $_ = VIM::Eval( 'expand("%:p")' );
-  die "Not a Perl module: $_" unless /.pm$/;
-  $_ = (split 'lib/')[1];
-  die "Cannot determine module name from $filepath. Not in a lib/ dir?" unless defined $_;
-  s|/|::|g;
-  s|.pm$||;
-  VIM::DoCommand( "let g:perl_vsnip_package = '$_'" );
-EOF
-return g:perl_vsnip_package
 endfunction
 ]]
 

@@ -92,9 +92,11 @@ local setup = function ()
   vim.lsp.enable('hls')
 
 
-  vim.lsp.config('perlnavigator', vim.tbl_extend("force", lspdef, {
-  }))
-  vim.lsp.enable('perlnavigator')
+  if vim.fn.executable('perlnavigator') == 1 then
+    vim.lsp.config('perlnavigator', vim.tbl_extend("force", lspdef, {
+    }))
+    vim.lsp.enable('perlnavigator')
+  end
 
 
   vim.lsp.config('nixd', vim.tbl_extend("force", lspdef, {

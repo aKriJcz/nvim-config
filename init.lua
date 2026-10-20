@@ -304,12 +304,15 @@ require("perl")
 
 
 -- Custom helper commands
+if vim.fn.has('perl') == 1 then
 vim.cmd [[
 " Convert PostgreSQL ranges
 command! -range=% ConvPostgreSQLRange :<line1>,<line2> perldo $_ =~ s/\["(.*?)",\s*"(.*?)"\)/'[\1, \2)'/<cr>
 ]]
+end
 
--- Perl helper commands
+-- Perl helper commands, only with perltidy around (a missing filter would replace the buffer with the error)
+if vim.fn.executable('perltidy') == 1 then
 vim.cmd [[
 "define :Tidy command to run perltidy on visual selection || entire buffer"
 command -range=% -nargs=* Tidy <line1>,<line2>!perltidy
@@ -328,6 +331,7 @@ au Filetype perl nmap <F2> :call DoTidy()<CR>
 "shortcut for visual mode to run on the current visual selection"
 au Filetype perl vmap <F2> :Tidy<CR>
 ]]
+end
 
 -- Flag large files
 -- https://www.reddit.com/r/neovim/comments/z85s1l/disable_lsp_for_very_large_files/

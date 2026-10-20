@@ -1,0 +1,151 @@
+--- a/plugin/repeatable-motions.vim	2026-10-06 12:04:55.055001425 +0200
++++ b/plugin/repeatable-motions.vim	2026-10-06 12:04:55.057790960 +0200
+@@ -15,6 +15,9 @@
+ let s:previous_columnwise_motion = ''
+ let s:previous_linewise_motion = ''
+ let s:most_recent_motion = ''
++let s:callbacks = {}
++let s:sid = expand('<SID>')
++let s:sid_nr = str2nr(matchstr(s:sid, '\d\+'))
+ 
+ let s:tf_target = ''
+ let s:repeating = 0
+@@ -91,12 +94,29 @@
+     let is_forwards_motion = direction == s:directions.FORWARDS
+     let direction_key = is_forwards_motion ? 'forwards' : 'backwards'
+ 
+-    if motion_object[direction_key].expr
+-        return eval(motion_object[direction_key].rhs)
+-    else
+-        let keys = s:MakeKeysFeedable(motion_object[direction_key].rhs)
+-        return keys
++    let map_mode = s:MapMode()
++    let mapping = motion_object[direction_key].modes[map_mode]
++
++    " Mappings defined from Lua have a callback instead of {rhs}
++    if has_key(mapping, 'callback')
++        if mapping.expr
++            let keys = call(mapping.callback, [])
++            return get(mapping, 'replace_keycodes', 0) ? s:MakeKeysFeedable(keys) : keys
++        endif
++        let callback_key = map_mode . a:motion
++        let s:callbacks[callback_key] = mapping.callback
++        return "\<Cmd>call " . s:sid . "RunCallback('" . substitute(callback_key, "'", "''", 'g') . "')\<CR>"
++    endif
++
++    let rhs = s:ResolveSid(mapping)
++    let keys = mapping.expr ? eval(rhs) : s:MakeKeysFeedable(rhs)
++    if !mapping.noremap
++        " Both the wrapping and the repeating mappings are noremap, so keys of
++        " a recursive mapping (e.g. <Plug>(signify-next-hunk)) are fed instead
++        call feedkeys(keys, 'im')
++        return ''
+     endif
++    return keys
+ 
+ endfunction
+ 
+@@ -121,7 +141,67 @@
+     let s:most_recent_motion = s:NormalizeMotion(a:motion)
+ endfunction
+ 
++" <SID> in a replayed {rhs} must point to the script that defined the mapping
++function! s:ResolveSid(mapping)
++    if get(a:mapping, 'sid', 0) <= 0
++        return a:mapping.rhs
++    endif
++    return substitute(a:mapping.rhs, '\c<SID>', '<SNR>' . a:mapping.sid . '_', 'g')
++endfunction
++
++function! s:RunCallback(callback_key)
++    call call(s:callbacks[a:callback_key], [])
++endfunction
++
++" Mapping mode the wrapping <expr> mapping is evaluated in
++function! s:MapMode()
++    let current = mode(1)
++    if current =~# '^no'
++        return 'o'
++    elseif current =~# "^[vV\<C-V>]"
++        return 'x'
++    endif
++    return 'n'
++endfunction
++
++" The wrapped mapping of {lhs} for one mapping mode, or the built-in command
++function! s:CaptureMapping(lhs, mode)
++    let maparg = maparg(a:lhs, a:mode, 0, 1)
++    if empty(maparg)
++        return { 'lhs': a:lhs, 'rhs': a:lhs, 'noremap': 1, 'expr': 0 }
++    endif
++    if get(maparg, 'sid', 0) == s:sid_nr
++        " Already wrapped globally, take over the mapping the global wrapper replays
++        for m in s:repeatable_motions
++            for dir in ['backwards', 'forwards']
++                if s:NormalizeMotion(m[dir].lhs) ==# s:NormalizeMotion(a:lhs)
++                    return m[dir].modes[a:mode]
++                endif
++            endfor
++        endfor
++    endif
++    return maparg
++endfunction
++
++function! s:CaptureModes(lhs)
++    return { 'n': s:CaptureMapping(a:lhs, 'n'), 'x': s:CaptureMapping(a:lhs, 'x'), 'o': s:CaptureMapping(a:lhs, 'o') }
++endfunction
++
++function! s:WrapperMapCommand(maparg)
++    let mapstring = 'noremap <expr>'
++    if a:maparg.buffer
++        let mapstring .= ' <buffer>'
++    endif
++    if a:maparg.silent
++        let mapstring .= ' <silent>'
++    endif
++    return mapstring
++endfunction
++
+ function! s:MakeKeysFeedable(keystrokes)
++    if exists('*nvim_replace_termcodes')
++        return nvim_replace_termcodes(a:keystrokes, v:true, v:true, v:true)
++    endif
+     let m = escape(a:keystrokes, '\')
+     let m = escape(m, '"')
+     let specialChars = [
+@@ -151,18 +231,10 @@
+     let motionPair = { 'linewise': a:linewise }
+     let defaultMaparg = { 'mode': '', 'noremap': 1, 'buffer': 0, 'silent': 0, 'expr': 0, 'nowait': 0 }
+     let buffer = 0
+-    let mapstring = 'noremap <expr>'
+ 
+     let maparg = maparg(a:backwards, '', 0, 1)
+     if !empty(maparg)
+         let motionPair.backwards = maparg
+-        if maparg.buffer
+-            let mapstring .= ' <buffer>'
+-        endif
+-
+-        if maparg.silent
+-            let mapstring .= ' <silent>'
+-        endif
+     else
+         let motionPair.backwards = deepcopy(defaultMaparg)
+         let motionPair.backwards.lhs = a:backwards
+@@ -178,10 +250,14 @@
+         let motionPair.forwards.rhs = a:forwards
+     endif
+ 
++    " One {lhs} can be mapped differently per mode, which a single maparg() misses
++    let motionPair.backwards.modes = s:CaptureModes(a:backwards)
++    let motionPair.forwards.modes = s:CaptureModes(a:forwards)
++
+     let backwards_escaped = "'".substitute(a:backwards, "'", "''", 'g')."'"
+     let forwards_escaped = "'".substitute(a:forwards, "'", "''", 'g')."'"
+-    exe mapstring a:backwards '<SID>Move('.backwards_escaped.', '.s:TRUE.')'
+-    exe mapstring a:forwards '<SID>Move('.forwards_escaped.', '.s:TRUE.')'
++    exe s:WrapperMapCommand(motionPair.backwards) a:backwards '<SID>Move('.backwards_escaped.', '.s:TRUE.')'
++    exe s:WrapperMapCommand(motionPair.forwards) a:forwards '<SID>Move('.forwards_escaped.', '.s:TRUE.')'
+ 
+     let targetList = s:repeatable_motions
+ 
