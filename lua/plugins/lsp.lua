@@ -32,10 +32,17 @@ local on_attach = function(_, bufnr)
     { "<space>D",   vim.lsp.buf.type_definition, desc = "LSP type definition" },
 
     { "<space>l",   group = "LSP" },
-    { "<space>lD",  fzf_lua.lsp_declarations,    desc = "LSP declarations" },
-    { "<space>ld",  fzf_lua.lsp_definitions,     desc = "LSP definitions" },
-    { "<space>li",  fzf_lua.lsp_implementations, desc = "LSP implementations" },
-    { "<space>ll",  fzf_lua.lsp_finder,          desc = "LSP finder" },
+    -- Single LSP queries; fzf_lua.lsp_finder (all at once) is too slow on big Java projects
+    { "<space>lr",  fzf_lua.lsp_references,             desc = "LSP references" },
+    { "<space>lD",  fzf_lua.lsp_declarations,           desc = "LSP declarations" },
+    { "<space>ld",  fzf_lua.lsp_definitions,            desc = "LSP definitions" },
+    { "<space>li",  fzf_lua.lsp_implementations,        desc = "LSP implementations" },
+    { "<space>lt",  fzf_lua.lsp_typedefs,               desc = "LSP type definitions" },
+    { "<space>lc",  fzf_lua.lsp_incoming_calls,         desc = "LSP incoming calls" },
+    { "<space>lC",  fzf_lua.lsp_outgoing_calls,         desc = "LSP outgoing calls" },
+    { "<space>ls",  fzf_lua.lsp_document_symbols,       desc = "LSP document symbols" },
+    { "<space>lS",  fzf_lua.lsp_live_workspace_symbols, desc = "LSP workspace symbols" },
+    { "<space>ll",  fzf_lua.lsp_finder,                 desc = "LSP finder (all)" },
     { "<space>lf",  function() vim.lsp.buf.format() end, desc = "LSP format" },
     --{ "<space>la", vim.lsp.buf.code_action,    desc = "LSP code action" },
 
@@ -47,7 +54,7 @@ local on_attach = function(_, bufnr)
 
     -- LspSaga
     { "<space>la",  "<cmd>Lspsaga code_action<CR>",          desc = "Lspsaga code action" },
-    { "<space>lr",  "<cmd>Lspsaga rename<CR>",               desc = "Lspsaga rename" },
+    { "<space>lR",  "<cmd>Lspsaga rename<CR>",               desc = "Lspsaga rename" },
     { "<space>ln",  "<cmd>Lspsaga diagnostic_jump_next<CR>", desc = "Next diagnostic" },
     { "<space>lp",  "<cmd>Lspsaga diagnostic_jump_prev<CR>", desc = "Previous diagnostic" },
     --{ "K",        "<cmd>Lspsaga hover_doc<CR>",            desc = "Lspsaga hover" },
