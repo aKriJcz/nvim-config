@@ -176,4 +176,5 @@ pkgs.buildEnv {
   name = "myvim" + lib.optionalString (!full) "-minimal" + lib.optionalString (configSrc != null) "-pure";
   paths = [ nvim ] ++ lib.optionals full tools;
   passthru = { inherit nvim jdtls-lombok; };
+  meta.mainProgram = "nvim";
 }
