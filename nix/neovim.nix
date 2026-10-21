@@ -78,6 +78,7 @@ let
     vim-svelte-plugin vim-freemarker #typescript-vim
     vim-fluffy
     #copilot-lua copilot-cmp
+    claudecode-nvim
     orgmode org-roam-nvim
     nvim-dbee cmp-dbee
     { plugin = vim-vdebug; optional = true; }

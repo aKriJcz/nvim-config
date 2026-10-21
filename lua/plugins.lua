@@ -116,6 +116,45 @@ require("dbee").setup {
 }
 require("cmp-dbee").setup {}
 
+-- claudecode.nvim: run Claude Code in a new tmux window, only when the plugin is installed
+-- https://github.com/coder/claudecode.nvim/issues/154
+local has_claudecode, claudecode = pcall(require, "claudecode")
+if has_claudecode then
+  claudecode.setup {
+    terminal = {
+      provider = "external",
+      provider_opts = {
+        external_terminal_cmd = function(cmd_string, env_table)
+          if not vim.env.TMUX then
+            vim.notify("claudecode: not running inside tmux", vim.log.levels.ERROR)
+            return nil
+          end
+          local cmd = { "tmux", "new-window", "-n", "claude", "-c", vim.fn.getcwd() }
+          -- tmux runs the command in the server's environment, so the IDE
+          -- connection variables have to be passed explicitly.
+          for key, value in pairs(env_table) do
+            table.insert(cmd, "-e")
+            table.insert(cmd, key .. "=" .. value)
+          end
+          table.insert(cmd, cmd_string)
+          return cmd
+        end,
+      },
+    },
+  }
+  wkey.add {
+    { "<Space>a",  group = "Claude Code" },
+    { "<Space>ac", "<cmd>ClaudeCode<CR>",               desc = "Open Claude" },
+    { "<Space>ar", "<cmd>ClaudeCode --resume<CR>",      desc = "Resume Claude" },
+    { "<Space>aC", "<cmd>ClaudeCode --continue<CR>",    desc = "Continue Claude" },
+    { "<Space>am", "<cmd>ClaudeCodeSelectModel<CR>",    desc = "Select Claude model" },
+    { "<Space>ab", "<cmd>ClaudeCodeAdd %<CR>",          desc = "Add current buffer to Claude" },
+    { "<Space>as", "<cmd>ClaudeCodeSend<CR>",           desc = "Send selection to Claude", mode = "v" },
+    { "<Space>aa", "<cmd>ClaudeCodeDiffAccept<CR>",     desc = "Accept Claude diff" },
+    { "<Space>ad", "<cmd>ClaudeCodeDiffDeny<CR>",       desc = "Deny Claude diff" },
+  }
+end
+
 
 ---- copilot-lua
 --require("copilot").setup {
