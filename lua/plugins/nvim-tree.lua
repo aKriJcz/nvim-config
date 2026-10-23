@@ -94,6 +94,19 @@ wkey.add {
   { "<leader>t", group = "nvim-tree" },
   { "<leader>tf", "<cmd>NvimTreeFindFile<CR>", desc = "Find file in nvim-tree" },
   { "<leader>tg", "<cmd>NvimTreeFocus<CR>", desc = "Focus nvim-tree" },
+  { "<leader>tc",
+      function()
+        if vim.fn.expand("%:p") == "" then
+          vim.notify("Current buffer has no file", vim.log.levels.WARN)
+          return
+        end
+        local dir = vim.fn.expand("%:p:h")
+        vim.cmd.cd(dir)
+        api.tree.change_root(dir)
+        api.tree.open { path = dir, find_file = true }
+        print(dir)
+      end, desc = "cd and nvim-tree to current file's directory"
+  },
   { "<leader>tp", -- https://github.com/kyazdani42/nvim-tree.lua/issues/860
       function()
         --local previous_buf = vim.api.nvim_get_current_buf()
